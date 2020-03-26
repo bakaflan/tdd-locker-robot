@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Locker {
+    private boolean USED = true;
+    private boolean EMPTY = false;
 
     private int boxNumber;
     private Map<Integer , Boolean> boxList;
@@ -21,6 +23,10 @@ public class Locker {
 
     public Map<String, Integer> getTicketList() {
         return ticketList;
+    }
+
+    public Map<Integer, Boolean> getBoxList() {
+        return boxList;
     }
 
     public Locker(int boxNumber) {
@@ -53,7 +59,18 @@ public class Locker {
         String ticket = generateTicket();
         int boxIndex = generateBoxIndex();
         ticketList.put(ticket,boxIndex);
-        System.out.println("已为您打开"+boxIndex+"号箱子,您的凭证号码为:"+ticket);
+        boxList.put(boxIndex,USED);
+        System.out.println("已为您打开"+boxIndex+"号储物格,您的凭证号码为:"+ticket);
         return ticket;
+    }
+
+    public void pickBag(String ticket) {
+        if(ticketList.containsKey(ticket)){
+            boxList.put(ticketList.get(ticket),EMPTY);
+            ticketList.remove(ticket);
+            System.out.println("已打开储物格,请取走您存放的物品");
+            return;
+        }
+        System.out.println("凭证无效");
     }
 }
