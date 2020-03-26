@@ -8,8 +8,49 @@ public class Locker {
     private int emptyBoxNum;
     private List<Integer> emptyBoxList;
     private List<Integer>  usedBoxList;
-
     private HashMap ticketList;
+
+    public int getBoxNumber() {
+        return boxNumber;
+    }
+
+    public void setBoxNumber(int boxNumber) {
+        this.boxNumber = boxNumber;
+    }
+
+    public int getEmptyBoxNum() {
+        return emptyBoxNum;
+    }
+
+    public void setEmptyBoxNum(int emptyBoxNum) {
+        this.emptyBoxNum = emptyBoxNum;
+    }
+
+    public List<Integer> getEmptyBoxList() {
+        return emptyBoxList;
+    }
+
+    public void setEmptyBoxList(List<Integer> emptyBoxList) {
+        this.emptyBoxList = emptyBoxList;
+    }
+
+    public List<Integer> getUsedBoxList() {
+        return usedBoxList;
+    }
+
+    public void setUsedBoxList(List<Integer> usedBoxList) {
+        this.usedBoxList = usedBoxList;
+    }
+
+    public HashMap getTicketList() {
+        return ticketList;
+    }
+
+    public void setTicketList(HashMap ticketList) {
+        this.ticketList = ticketList;
+    }
+
+
 
     public Locker(int boxNumber, int emptyBoxNum) {
         this.boxNumber = boxNumber;
@@ -19,7 +60,7 @@ public class Locker {
         for(int i =0;i<boxNumber;i++){
             emptyBoxList.add(i);
         }
-        ticketList = new HashMap<String,Integer>();
+        ticketList = new HashMap<String, Integer>();
     }
 
     public String getEmptyBox() {
@@ -36,5 +77,5 @@ public class Locker {
         return "there is no empty box";
     }
 
-    
+
 }
