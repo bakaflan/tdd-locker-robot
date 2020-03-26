@@ -9,7 +9,7 @@ import java.util.concurrent.locks.Lock;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BoxTest {
+class BoxTest {
 
     @Test
     void should_open_box_and_return_ticket_when_customer_store_bag_if_there_is_empty_box(){
@@ -31,8 +31,6 @@ public class BoxTest {
         locker.pickBag(ticket);
         assertFalse(locker.getTicketList().containsKey(ticket));
         assertFalse(locker.getBoxList().get(boxIndex));
-
-        locker.pickBag("无效凭证");
     }
 
     @Test
@@ -41,6 +39,22 @@ public class BoxTest {
         locker.storeBag();
         locker.storeBag();
         locker.storeBag();
+
+    }
+
+    @Test
+    void should_warnning_when_pick_bag_if_ticket_is_overdue() {
+        Locker locker = new Locker(19);
+        String ticket = locker.storeBag();
+        int boxIndex = locker.getTicketList().get(ticket);
+        assertTrue(locker.getTicketList().containsKey(ticket));
+        assertTrue(locker.getBoxList().get(boxIndex));
+
+        locker.pickBag(ticket);
+        assertFalse(locker.getTicketList().containsKey(ticket));
+        assertFalse(locker.getBoxList().get(boxIndex));
+
+        locker.pickBag(ticket);
 
     }
 
