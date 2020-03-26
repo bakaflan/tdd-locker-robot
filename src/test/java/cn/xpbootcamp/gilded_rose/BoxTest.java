@@ -3,7 +3,9 @@ package cn.xpbootcamp.gilded_rose;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,5 +35,13 @@ public class BoxTest {
         locker.pickBag("无效凭证");
     }
 
+    @Test
+    void should_warnning_when_store_a_bag_if_no_empty_box(){
+        Locker locker = new Locker(2);
+        locker.storeBag();
+        locker.storeBag();
+        locker.storeBag();
+
+    }
 
 }

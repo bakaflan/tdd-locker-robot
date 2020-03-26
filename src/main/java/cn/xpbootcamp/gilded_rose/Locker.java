@@ -38,7 +38,7 @@ public class Locker {
     }
 
     private void initBoxList() {
-        IntStream.range(0, boxNumber).forEach(i -> boxList.put(i, false));
+        IntStream.range(0, boxNumber).forEach(i -> boxList.put(i, EMPTY));
     }
 
     private int generateBoxIndex() {
@@ -56,17 +56,21 @@ public class Locker {
     }
 
     public String storeBag(){
-        String ticket = generateTicket();
-        int boxIndex = generateBoxIndex();
-        ticketList.put(ticket,boxIndex);
-        boxList.put(boxIndex,USED);
-        System.out.println("已为您打开"+boxIndex+"号储物格,您的凭证号码为:"+ticket);
-        return ticket;
+        if (boxList.containsValue(EMPTY)) {
+            String ticket = generateTicket();
+            int boxIndex = generateBoxIndex();
+            ticketList.put(ticket,boxIndex);
+            boxList.put(boxIndex,USED);
+            System.out.println("已为您打开"+boxIndex+"号储物格,您的凭证号码为:"+ticket);
+            return ticket;
+        }
+        System.out.println("储物柜已满");
+        return null;
     }
 
     public void pickBag(String ticket) {
         if(ticketList.containsKey(ticket)){
-            boxList.put(ticketList.get(ticket),EMPTY);
+            boxList.put(ticketList.get(ticket),EMPTY );
             ticketList.remove(ticket);
             System.out.println("已打开储物格,请取走您存放的物品");
             return;
