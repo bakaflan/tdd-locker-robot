@@ -1,14 +1,15 @@
 package cn.xpbootcamp.gilded_rose;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class Locker {
 
     private int boxNumber;
-    private int emptyBoxNum;
-    private List<Integer> emptyBoxList;
-    private List<Integer>  usedBoxList;
-    private HashMap ticketList;
+    private Map<Integer , Boolean> boxList;
+    private Map<String , Integer> ticketList;
+    private Random random;
+
 
     public int getBoxNumber() {
         return boxNumber;
@@ -18,64 +19,41 @@ public class Locker {
         this.boxNumber = boxNumber;
     }
 
-    public int getEmptyBoxNum() {
-        return emptyBoxNum;
-    }
-
-    public void setEmptyBoxNum(int emptyBoxNum) {
-        this.emptyBoxNum = emptyBoxNum;
-    }
-
-    public List<Integer> getEmptyBoxList() {
-        return emptyBoxList;
-    }
-
-    public void setEmptyBoxList(List<Integer> emptyBoxList) {
-        this.emptyBoxList = emptyBoxList;
-    }
-
-    public List<Integer> getUsedBoxList() {
-        return usedBoxList;
-    }
-
-    public void setUsedBoxList(List<Integer> usedBoxList) {
-        this.usedBoxList = usedBoxList;
-    }
-
-    public HashMap getTicketList() {
+    public Map<String, Integer> getTicketList() {
         return ticketList;
     }
 
-    public void setTicketList(HashMap ticketList) {
-        this.ticketList = ticketList;
-    }
-
-
-
-    public Locker(int boxNumber, int emptyBoxNum) {
+    public Locker(int boxNumber) {
         this.boxNumber = boxNumber;
-        this.emptyBoxNum = emptyBoxNum;
-        this.emptyBoxList = new ArrayList<Integer>();
-        this.usedBoxList = new ArrayList<Integer>();
-        for(int i =0;i<boxNumber;i++){
-            emptyBoxList.add(i);
-        }
-        ticketList = new HashMap<String, Integer>();
+        this.boxList = new HashMap<Integer, Boolean>();
+        this.ticketList = new HashMap<>();
+        this.random = new Random();
+        initBoxList();
     }
 
-    public String getEmptyBox() {
-        if(emptyBoxNum>0){
-            String ticker = String.valueOf(System.currentTimeMillis());
-            emptyBoxNum--;
-            int boxIndex = (int) (Math.random() * 19);
-            int boxID = emptyBoxList.get(boxIndex);
-            emptyBoxList.remove(boxIndex);
-            ticketList.put(ticker,boxIndex);
-            usedBoxList.add(boxID);
-            return ticker;
-        }
-        return "there is no empty box";
+    private void initBoxList() {
+        IntStream.range(0, boxNumber).forEach(i -> boxList.put(i, false));
     }
 
+    private int generateBoxIndex() {
+        List<Integer> emptyList = new ArrayList<>();
+        boxList.forEach((boxIndex,isEmpty) ->{
+            if(!isEmpty){
+                emptyList.add(boxIndex);
+            }
+        });
+        return emptyList.get(random.nextInt(emptyList.size()));
+    }
 
+    private String generateTicket(){
+        return String.valueOf(System.currentTimeMillis());
+    }
+
+    public String storeBag(){
+        String ticket = generateTicket();
+        int boxIndex = generateBoxIndex();
+        ticketList.put(ticket,boxIndex);
+        System.out.println("已为您打开"+boxIndex+"号箱子,您的凭证号码为:"+ticket);
+        return ticket;
+    }
 }
