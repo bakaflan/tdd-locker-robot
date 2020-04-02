@@ -1,7 +1,5 @@
 package cn.xpbootcamp.gilded_rose;
 
-import jdk.internal.vm.compiler.collections.EconomicMap;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,5 +35,15 @@ public class LockerRobot {
         return ticket;
     }
 
+    public void pickBag(String ticket) {
+        int lockerIndex = ticket2Locker.get(ticket);
+        try {
+            lockerList.get(lockerIndex).pickBag(ticket);
+            ticket2Locker.remove(ticket);
+            System.out.println("已打开储物格,请取走您存放的物品");
+        } catch (Exception e) {
+
+        }
+    }
 
 }
