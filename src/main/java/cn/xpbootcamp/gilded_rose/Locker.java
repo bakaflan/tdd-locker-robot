@@ -41,7 +41,7 @@ public class Locker {
         IntStream.range(0, boxNumber).forEach(i -> boxList.put(i, EMPTY));
     }
 
-    private int generateBoxIndex() {
+    private int getRandomBoxIndex() {
         List<Integer> emptyList = new ArrayList<>();
         boxList.forEach((boxIndex,isEmpty) ->{
             if(!isEmpty){
@@ -51,21 +51,25 @@ public class Locker {
         return emptyList.get(random.nextInt(emptyList.size()));
     }
 
-    private String generateTicket(){
+    private String getRandomTicket(){
         return String.valueOf(System.currentTimeMillis());
     }
 
-    public String storeBag(){
-        if (boxList.containsValue(EMPTY)) {
-            String ticket = generateTicket();
-            int boxIndex = generateBoxIndex();
+    public String storeBag() throws LockerException {
+        if (isAvailableBox()) {
+            String ticket = getRandomTicket();
+            int boxIndex = getRandomBoxIndex();
             ticketList.put(ticket,boxIndex);
             boxList.put(boxIndex,USED);
             System.out.println("已为您打开"+boxIndex+"号储物格,您的凭证号码为:"+ticket);
             return ticket;
         }
-        System.out.println("储物柜已满");
-        return null;
+        System.out.println("柜子已满");
+        throw new LockerException("there is no empty box");
+    }
+
+    public boolean isAvailableBox() {
+        return boxList.containsValue(EMPTY);
     }
 
     public void pickBag(String ticket) {
@@ -76,5 +80,6 @@ public class Locker {
             return;
         }
         System.out.println("凭证无效");
+        throw new LockerException("ticket is no available");
     }
 }
