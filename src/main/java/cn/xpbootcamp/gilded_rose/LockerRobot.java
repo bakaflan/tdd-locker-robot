@@ -35,15 +35,17 @@ public class LockerRobot {
         return ticket;
     }
 
-    public void pickBag(String ticket) {
-        int lockerIndex = ticket2Locker.get(ticket);
-        try {
+    public void pickBag(String ticket) throws LockerException {
+        if(ticket2Locker.containsKey(ticket)){
+            int lockerIndex = ticket2Locker.get(ticket);
             lockerList.get(lockerIndex).pickBag(ticket);
             ticket2Locker.remove(ticket);
-            System.out.println("已打开储物格,请取走您存放的物品");
-        } catch (Exception e) {
+        }else{
+            System.out.println("此票据不可用");
+            throw new LockerException("this ticket is not available");
 
         }
+
     }
 
 }
